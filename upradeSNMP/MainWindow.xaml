@@ -1,0 +1,43 @@
+﻿<Window x:Class="upradeSNMP.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:upradeSNMP"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+        <Label Content="Обновление прошивок по SNMP" HorizontalAlignment="Center" Margin="0,23,0,0" VerticalAlignment="Top" Width="192"/>
+
+        <Label Content="SNMP Community" HorizontalAlignment="Left" Margin="247,240,0,0" VerticalAlignment="Top"/>
+
+        <Label Content="SNMP Version" HorizontalAlignment="Left" Margin="270,266,0,0" VerticalAlignment="Top"/>
+        <Label Content="Путь к файлу с IP адресами" HorizontalAlignment="Left" Margin="240,86,0,0" VerticalAlignment="Top"/>
+        <Label Content="Адрес tftp сервера с прошиской" HorizontalAlignment="Left" Margin="211,135,0,0" VerticalAlignment="Top"/>
+        <Label Content="Имя файла с прошивокй на tftp сервере" HorizontalAlignment="Left" Margin="165,112,0,0" VerticalAlignment="Top"/>
+        <Label Content="Команда на перезагрузку" HorizontalAlignment="Left" Margin="250,157,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="lblFindIP" HorizontalAlignment="Left" Margin="542,54,0,0" VerticalAlignment="Top" Foreground="#FF29E416" Visibility="Hidden"/>
+        <Label x:Name="lblGreenOID" Content="OIDы добавлены" HorizontalAlignment="Center" Margin="0,217,0,0" VerticalAlignment="Top" IsHitTestVisible="False" Foreground="#FF25D613" Visibility="Hidden"/>
+        <Button Content="..." HorizontalAlignment="Left" Margin="525,88,0,0" VerticalAlignment="Top" Click="Button_Click_1"/>
+        <Button x:Name="btnCheckIPList" Content="Проверить список" HorizontalAlignment="Left" Margin="542,89,0,0" VerticalAlignment="Top" IsEnabled="False" Click="btnCheckIPList_Click" Visibility="Visible"/>
+        <TextBox x:Name="txtboxFileDialog" HorizontalAlignment="Left" Margin="400,89,0,0" TextWrapping="NoWrap" VerticalAlignment="Top" Width="120" MouseEnter="txtboxFileDialog_MouseEnter"/>
+        <TextBox x:Name="txtBoxFile" HorizontalAlignment="Left" Margin="400,116,0,0" TextWrapping="NoWrap" VerticalAlignment="Top" Width="120"/>
+        <TextBox x:Name="txtBoxIPaddrTFTP" HorizontalAlignment="Left" Margin="400,139,0,0" TextWrapping="NoWrap" VerticalAlignment="Top" Width="120"/>
+        <TextBox x:Name="txtBoxCodeReboot" HorizontalAlignment="Left" Margin="400,162,0,0" Text="1" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <Button x:Name ="btnAddOIDs"  Content="Ввести OIDы" HorizontalAlignment="Center" Margin="0,197,0,0" VerticalAlignment="Top" Click="Button_Click"/>
+        <TextBox x:Name="txtBoxCommunity" HorizontalAlignment="Left" Margin="400,244,0,0" Text="private" TextWrapping="NoWrap" VerticalAlignment="Top" Width="120"/>
+        <ComboBox x:Name="comboBoxVersion" HorizontalAlignment="Left" Margin="400,272,0,0" VerticalAlignment="Top" Width="120" SelectedIndex="1">
+            <ListBoxItem Content="1"/>
+            <ListBoxItem Content="2" IsSelected="True"/>
+            <ListBoxItem Content="3"/>
+        </ComboBox>
+        <Button x:Name="btnSend" Content="Отправить" HorizontalAlignment="Center" Margin="0,307,0,0" VerticalAlignment="Top" Height="37" Width="154" IsEnabled="False" Click="btnSend_Click"/>
+
+        <Label x:Name="lblStatus" Content="Label" HorizontalAlignment="Left" Margin="114,361,0,0" VerticalAlignment="Top" Visibility="Hidden"/>
+
+        <ProgressBar x:Name="prgBar" HorizontalAlignment="Center" Height="15" Margin="0,384,0,0" VerticalAlignment="Top" Width="572" Value="0" Visibility="Hidden"/>
+        <Label x:Name="lblProgress" Content="Label" HorizontalAlignment="Left" Margin="691,379,0,0" VerticalAlignment="Top" Visibility="Hidden"/>
+       
+
+    </Grid>
+</Window>
