@@ -12,8 +12,9 @@ namespace upradeSNMP
     public partial class ShowIP : Window
     {
         readonly List<string> _IP;
-        public ShowIP(List<string> ip)
+        public ShowIP(string name, List<string> ip)
         {
+            Title = name;
             _IP = ip;
             InitializeComponent();
             lstboxIP.ItemsSource = _IP;

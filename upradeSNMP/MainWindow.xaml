@@ -18,7 +18,7 @@
         <Label Content="Команда на перезагрузку" HorizontalAlignment="Left" Margin="250,157,0,0" VerticalAlignment="Top"/>
         <Label x:Name="lblFindIP" HorizontalAlignment="Left" Margin="542,54,0,0" VerticalAlignment="Top" Foreground="#FF29E416" Visibility="Hidden"/>
         <Label x:Name="lblGreenOID" Content="OIDы добавлены" HorizontalAlignment="Center" Margin="0,217,0,0" VerticalAlignment="Top" IsHitTestVisible="False" Foreground="#FF25D613" Visibility="Hidden"/>
-        <Button Content="..." HorizontalAlignment="Left" Margin="525,88,0,0" VerticalAlignment="Top" Click="Button_Click_1"/>
+        <Button x:Name="btnFileDialog" Content="..." HorizontalAlignment="Left" Margin="525,88,0,0" VerticalAlignment="Top" Click="btnFileDialog_Click"/>
         <Button x:Name="btnCheckIPList" Content="Проверить список" HorizontalAlignment="Left" Margin="542,89,0,0" VerticalAlignment="Top" IsEnabled="False" Click="btnCheckIPList_Click" Visibility="Visible"/>
         <TextBox x:Name="txtboxFileDialog" HorizontalAlignment="Left" Margin="400,89,0,0" TextWrapping="NoWrap" VerticalAlignment="Top" Width="120" MouseEnter="txtboxFileDialog_MouseEnter"/>
         <TextBox x:Name="txtBoxFile" HorizontalAlignment="Left" Margin="400,116,0,0" TextWrapping="NoWrap" VerticalAlignment="Top" Width="120"/>

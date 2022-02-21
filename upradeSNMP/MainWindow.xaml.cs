@@ -1,17 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+
 using System.IO;
 
 
@@ -23,14 +15,14 @@ namespace upradeSNMP
     public partial class MainWindow : Window
     {
         List<string> _devices;
-       List <string> oid;
+        List <string> oid;
 
 
         public MainWindow()
         {
             InitializeComponent();
 
-             _devices = new List<string>();
+            _devices = new List<string>();
           
             oid = new List<string>();
         }
@@ -79,7 +71,7 @@ namespace upradeSNMP
 
         }
 
-        private void btnSend_Click(object sender, RoutedEventArgs e)
+        async private void  btnSend_Click(object sender, RoutedEventArgs e)
         {
             //MessageBox.Show($"Переданы параметры:\n " +
             //    $"сервер: {oid[1]}|{txtBoxFile.Text}\n" +
@@ -100,14 +92,14 @@ namespace upradeSNMP
             foreach (string ip in _devices)
             {
                 lblProgress.Content = "Отправка: " + ip;
-                obj.start(ip);
-               
-             
+                await Task.Run(()=>  obj.start(ip));
 
-                    prgBar.Value++;
-               
+                prgBar.Value++;
+
+                System.Threading.Thread.Sleep(50);
                 lblProgress.Content =prgBar.Value + "/" + _devices.Count;
-                this.UpdateLayout();
+             //   UpdateLayout();
+
                 
             }
          
@@ -118,37 +110,37 @@ namespace upradeSNMP
             checkComlete();
         }
 
-        private void Button_Click_1(object sender, RoutedEventArgs e)
+        private void btnFileDialog_Click(object sender, RoutedEventArgs e)
         {
-            var fileDialog = new System.Windows.Forms.OpenFileDialog();
-            var result = fileDialog.ShowDialog();
-            switch (result)
+
+            System.Windows.Forms.OpenFileDialog fileDialog = new System.Windows.Forms.OpenFileDialog();
+
+            switch (fileDialog.ShowDialog())
             {
                 case System.Windows.Forms.DialogResult.OK:
-                    var file = fileDialog.FileName;
-                    txtboxFileDialog.Text = file;
-                   txtboxFileDialog.ToolTip = file;
+                    txtboxFileDialog.Text = fileDialog.FileName;
+                    txtboxFileDialog.ToolTip = fileDialog.FileName;
+
+
                     readFile();
-                    lblFindIP.Visibility = Visibility.Visible;
-                    lblFindIP.Content = $"Найдено " + _devices.Count + " строк";
-                    btnCheckIPList.IsEnabled = true;
+
                     break;
                 case System.Windows.Forms.DialogResult.Cancel:
                 default:
-                    txtboxFileDialog.Text = "";
+                    txtboxFileDialog.Text = string.Empty;
                     txtboxFileDialog.ToolTip = null;
 
                     lblFindIP.Visibility = Visibility.Hidden;
                     btnCheckIPList.IsEnabled = false;
                     break;
             }
-            checkComlete();
         }
+     
 
         private void btnCheckIPList_Click(object sender, RoutedEventArgs e)
         {
-            ShowIP showIP = new ShowIP(_devices);
-            showIP.ShowDialog();
+            ShowIP obj = new ShowIP("List IP addresses", _devices);
+            obj.Show();
         }
 
         private void txtboxFileDialog_MouseEnter(object sender, MouseEventArgs e)
@@ -169,25 +161,46 @@ namespace upradeSNMP
         }
         void readFile()
         {
+
+            //Считывание из файла
             _devices.Clear();
+            string tmp = string.Empty;
+
             try
             {
+
+                //резулярное выражение для поиска ip в строке
+                System.Text.RegularExpressions.Regex ip = new System.Text.RegularExpressions.Regex(@"\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b");
                 using (FileStream fs = new FileStream(txtboxFileDialog.Text, FileMode.Open))
                 {
                     using (StreamReader sr = new StreamReader(fs, System.Text.Encoding.UTF8))
                     {
+
                         while (!sr.EndOfStream)
                         {
-                            _devices.Add(sr.ReadLine());
+                            tmp = sr.ReadLine();
+                            if (ip.IsMatch(tmp))
+                                _devices.Add(ip.Match(tmp).ToString());
                         }
                     }
                 }
-      
+                checkComlete();
             }
+
+            catch (ArgumentException ex)
+            {
+                MessageBox.Show("Argument" + ex.Message.ToString());
+            }
+            //
             catch (Exception ex)
             {
                 MessageBox.Show("Возникла ошибка при чтении:\n" + ex.Message.ToString());
             }
+
+
+            lblFindIP.Visibility = Visibility.Visible;
+            lblFindIP.Content = $"Найдено " + _devices.Count + " адресов";
+            btnCheckIPList.IsEnabled = true;
         }
     }
 }
